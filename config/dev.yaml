@@ -1,0 +1,16 @@
+accountID: ""
+SDKKey: ""
+isDevelopmentMode: true
+abCampaignKey: ""
+abCampaignGoalIdentifier: ""
+featureRolloutCampaignKey: ""
+featureTestCampaignKey: ""
+
+revenueValue: ""
+
+stringVariable: ""
+intVariable: ""
+boolVariable: ""
+doubleVariable: ""
+
+port: ":3000"
