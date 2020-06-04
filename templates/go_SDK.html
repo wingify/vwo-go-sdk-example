@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <script>
+        function syntaxHighlight(json) {
+            json = JSON.stringify(JSON.parse(json), undefined, 2);
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(
+                /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+                function (match) {
+                    var cls = 'number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'key';
+                        } else {
+                            cls = 'string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+        }
+
+        window.onload = () => {
+            document.getElementById('settings').innerHTML = syntaxHighlight(document.getElementById('settings')
+                .innerText);
+        }
+    </script>
+    <title>VWO server-side Experimentation</title>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .margin--top {
+            margin-top: 20px;
+        }
+
+        .color-grey {
+            color: #777;
+        }
+
+        .color-blue {
+            color: #00a8ff;
+        }
+
+        pre {
+            background-color: ghostwhite;
+            border: 1px solid silver;
+            padding: 10px 20px;
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        .left-container {
+            flex: 0 1 50%;
+            min-height: 100%;
+            max-width: 50%;
+            margin: 0 10px;
+        }
+
+        .home {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="home">HOME</a>
+    <div>
+        <h2 class="center  color-blue">VWO GO SDK Example : <strong>GO_SDK</strong></h2>
+        <div class="main-container">
+            <div class="left-container">
+                <h2 class="center  color-grey">Settings</h2>
+                <pre id="settings"><code>{{ .settingsFile }}</code></pre>
+            </div>
+        </div>
+    </div>
+</body>
