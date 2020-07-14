@@ -81,9 +81,15 @@ variationName = instance.Activate(campaignKey, userID, nil)
 // GetVariation
 variationName = instance.GetVariationName(campaignKey, userID, nil)
 
-// Track API
+// Track API with revenueValue in options
 options := make(map[string]interface{})
 options["revenueValue"] = 12
+isSuccessful = instance.Track(campaignKey, userID, goalIdentifier, options)
+
+// Track API with goalTypeToTrack and shouldTrackReturningUser in options
+options := make(map[string]interface{})
+options["goalTypeToTrack"] = constants.GoalType.All
+options["shouldTrackReturningUser"] = false
 isSuccessful = instance.Track(campaignKey, userID, goalIdentifier, options)
 
 // FeatureEnabled API
@@ -107,7 +113,7 @@ import "github.com/wingify/vwo-go-sdk/pkg/schema"
 // declare UserStorage interface with the following Get & Set function signature
 type UserStorage interface{
     Get(userID, campaignKey string) UserData
-    Set(string, string, string)
+    Set(string, string, string, string)
 }
 
 // declare a UserStorageData struct to implement UserStorage interface
@@ -136,13 +142,15 @@ func (us *UserStorageData) Get(userID, campaignKey string) schema.UserData {
 }
 
 // Set method to save user variation to storage
-func (us *UserStorageData) Set(userID, campaignKey, variationName string) {
+func (us *UserStorageData) Set(userID, campaignKey, variationName, goalIdentifer string) {
     //Example code showing how to store userData in DB
     userdata := schema.UserData{
 		UserID:        userID,
 		CampaignKey:   campaignKey,
 		VariationName: variationName,
+		GoalIdentifier: goalIdentifier,
 	}
+
 	flag := false
 	userData, ok := userDatas[userdata.CampaignKey]
 	if ok {
@@ -153,6 +161,13 @@ func (us *UserStorageData) Set(userID, campaignKey, variationName string) {
 		}
 		if !flag {
 			userDatas[userdata.CampaignKey] = append(userDatas[userdata.CampaignKey], userdata)
+		} else {
+			for i, user := range userData {
+				if user.UserID == userdata.UserID && user.CampaignKey == userdata.CampaignKey {
+					userData[i].VariationName = userdata.VariationName
+					userData[i].GoalIdentifier = userdata.GoalIdentifier
+				}
+			}
 		}
 	} else {
 		userDatas[userdata.CampaignKey] = []schema.UserData{

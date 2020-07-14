@@ -13,7 +13,7 @@ import (
 // UserStorage interface
 type UserStorage interface {
 	Get(userID, campaignKey string) schema.UserData
-	Set(userID, campaignKey, variationName string)
+	Set(userID, campaignKey, variationName, goalIdentifier string)
 }
 
 // UserStorageData struct
@@ -28,7 +28,7 @@ func (us *UserStorageData) Get(userID, campaignKey string) schema.UserData {
 	var userDatas map[string][]schema.UserData
 
 	// Conect your database here to fetch the current data
-	// Uncomment the below part (Lines 45-57) to user JSON as data base
+	// Uncomment the below part (Lines 33-45) to user JSON as data base
 
 	// absPath, err := filepath.Abs(path)
 	// if err != nil {
@@ -59,11 +59,11 @@ func (us *UserStorageData) Get(userID, campaignKey string) schema.UserData {
 }
 
 // Set function
-func (us *UserStorageData) Set(userID, campaignKey, variationName string) {
+func (us *UserStorageData) Set(userID, campaignKey, variationName, goalIdentifier string) {
 	var userDatas map[string][]schema.UserData
 
 	// Conect your database here to insert the value
-	// Uncomment the below part (Lines 78-90) to user JSON as data base
+	// Uncomment the below part (Lines 68-80) to user JSON as data base
 
 	// absPath, err := filepath.Abs(path)
 	// if err != nil {
@@ -83,6 +83,7 @@ func (us *UserStorageData) Set(userID, campaignKey, variationName string) {
 		UserID:        userID,
 		CampaignKey:   campaignKey,
 		VariationName: variationName,
+		GoalIdentifier: goalIdentifier,
 	}
 
 	flag := false
@@ -95,13 +96,22 @@ func (us *UserStorageData) Set(userID, campaignKey, variationName string) {
 		}
 		if !flag {
 			userDatas[userdata.CampaignKey] = append(userDatas[userdata.CampaignKey], userdata)
+		} else {
+			for i, user := range userData {
+				if user.UserID == userdata.UserID && user.CampaignKey == userdata.CampaignKey {
+					userData[i].VariationName = userdata.VariationName
+					userData[i].GoalIdentifier = userdata.GoalIdentifier
+				}
+			}
 		}
 	} else {
 		userDatas[userdata.CampaignKey] = []schema.UserData{
 			userdata,
 		}
 	}
+
 	// This is a part of the above JSON data handling
+
 	// data, err := json.MarshalIndent(userDatas, "", " ")
 	// if err != nil {
 	// 	fmt.Println("Could not marshall: ", err)
