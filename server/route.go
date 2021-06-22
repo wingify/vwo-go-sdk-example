@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/wingify/vwo-go-sdk/controllers"
 	"github.com/gin-gonic/gin"
+	"wingify.com/vwo-go-sdk-example/controllers"
 )
 
 //NewRouter function controls the routes
@@ -20,6 +20,8 @@ func NewRouter() *gin.Engine {
 	router.GET("/push", controllers.PushController)
 	router.GET("/go-sdk", controllers.GoSDKController)
 	router.GET("/", controllers.HomePage)
+	router.POST("/webhook", controllers.WebhookController)
+	router.GET("/flush", controllers.BatchController)
 
 	return router
 }

@@ -8,14 +8,15 @@ This repository provides a basic demo of how server-side works with VWO GO SDK.
 
 ## Documentation
 
-Refer [VWO Official FullStack Documentation](https://developers.vwo.com/reference#fullstack-introduction)
+Refer [VWO Official FullStack Documentation](https://developers.vwo.com/docs/fullstack-overview)
 
 ## Setup
 
 1. Install dependencies
 
 ```go
-go get .
+go mod init wingify.com/vwo-go-sdk-example
+go mod tidy
 go get -u github.com/cosmtrek/air
 ```
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/wingify/vwo-go-example/config"
-	"github.com/wingify/vwo-go-example/server"
+	"wingify.com/vwo-go-sdk-example/config"
+	"wingify.com/vwo-go-sdk-example/server"
 )
 
 func main() {

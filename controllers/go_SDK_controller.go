@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/wingify/vwo-go-sdk/models"
+	"wingify.com/vwo-go-sdk-example/models"
 	"github.com/gin-gonic/gin"
 )
 

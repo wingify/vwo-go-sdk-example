@@ -1,6 +1,6 @@
 package server
 
-import "github.com/wingify/vwo-go-sdk/config"
+import "wingify.com/vwo-go-sdk-example/config"
 
 //Init function starts the server on the port specified
 func Init() {

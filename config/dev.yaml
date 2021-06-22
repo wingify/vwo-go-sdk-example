@@ -14,3 +14,4 @@ boolVariable: ""
 doubleVariable: ""
 
 port: ":3000"
+webhookSecret: ""
